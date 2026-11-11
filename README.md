@@ -40,6 +40,20 @@ They run automatically on every commit and every push. A failure that is not an 
 | `pre-push` | `git push` | the above + 49 browser tests | ~13s |
 | CI | push / PR to `main` | everything, plus a published QA report | ~2min |
 
+### What that looks like when someone breaks something
+
+A developer renames a column constant while adding a feature. One character. The commit never happens:
+
+<p align="center">
+  <img src="docs/media/07-commit-blocked.png" width="820" alt="Terminal: five new failures named, commit blocked, husky exits 1">
+</p>
+
+Revert the rename, and a change that breaks nothing goes straight through — same gate, same suite, opposite outcome:
+
+<p align="center">
+  <img src="docs/media/09-clean-commit-allowed.png" width="820" alt="Terminal: gate passes, commit is created">
+</p>
+
 ### Why it is not simply "all tests must pass"
 
 Eight checks are **red on purpose**. Each pins a real, unfixed defect — a comma decimal that parses as `NaN`, two Scispot unit options the totals ignore, a sheet missing from the load-time check. They are listed in [`tests/known-failures.json`](tests/known-failures.json) with the defect each one documents.
@@ -74,14 +88,22 @@ No test here is called `test_search_2`. Each carries an ID, what it checks, and 
 
 ## Demo
 
-An 80-second recorded walkthrough covering the product, schema-drift detection, a documented defect, and the guardrail itself:
+A 1 minute 44 second recorded walkthrough, in six acts:
+
+1. **The product** — synonym search, the custody graph, a lot's audit record
+2. **The risk** — a Scispot column renamed mid-flight, caught at load
+3. **The suite running** — the real gate, in a real terminal
+4. **A regression refused** — a commit genuinely blocked, on camera
+5. **The fix, then a clean commit** — the gate blocks regressions, not progress
+6. **The ledger** — 191 checks, each with its root cause
 
 **[docs/media/custody-demo.webm](docs/media/custody-demo.webm)**
 
-Regenerate it any time:
+Acts 3–5 are not a reenactment. [`demo/capture-session.ts`](demo/capture-session.ts) clones this repo into a throwaway workspace, activates the hooks, genuinely breaks a column name, and records whatever the commands actually print — including the blocked commit and its exit code. The video replays that captured output. Regenerate both any time:
 
 ```bash
-npm run demo:video      # records to demo-output/
+npx vite-node demo/capture-session.ts   # re-capture the terminal session
+npm run demo:video                      # re-record, writes demo-output/
 ```
 
 To watch the guardrail refuse a schema change live, in the terminal:
@@ -119,4 +141,4 @@ npm run test:report        # writes reports/test-report.html
 | [tests/known-failures.json](tests/known-failures.json) | the eight defects that are red on purpose |
 | [scripts/test-gate.ts](scripts/test-gate.ts) | the baseline diff that decides whether a commit proceeds |
 | [e2e/](e2e/) | 49 browser tests against a stand-in Scispot SDK — no token, no network |
-| [demo/](demo/) | the recorded client walkthrough |
+| [demo/](demo/) | the recorded client walkthrough, and the capture script behind its terminal acts |
