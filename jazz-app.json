@@ -1,0 +1,7 @@
+{
+  "appId": "d3340961-d93b-47b8-83ec-3c73032c01e1",
+  "name": "Chemical Chain of Custody",
+  "servingUrl": "https://scispot-smartapp-d3340961-d93b-47b8-83ec-3c73032c01e1.s3.us-east-1.amazonaws.com/index.html",
+  "customer": "Sandbox",
+  "environment": "sandbox-prod"
+}

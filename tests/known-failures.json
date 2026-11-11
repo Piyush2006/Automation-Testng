@@ -1,0 +1,14 @@
+{
+  "note": "Tests that are RED on purpose: each pins a real, unfixed defect. The commit gate (npm run test:gate) tolerates exactly these and blocks any OTHER failure, so adding a feature cannot quietly break something that works today. Fix a defect -> delete its entry here. Never add an entry to make your own change pass.",
+  "capturedAt": "2026-11-12",
+  "expectedFailures": [
+    { "id": "CONTRACT-004", "defect": "Item ID search sends Contains on ID_BARCODE, which Scispot rejects; the fallback drops the ID filter, so item IDs never match." },
+    { "id": "CHAIN-015", "defect": "toLot() is always called with linked=true, so the 'Matched by name' badge and 'not linked yet' warning are dead code." },
+    { "id": "SCHEMA-006", "defect": "EXPECTED_COLUMNS omits SHEETS.vendors, so a rename of 'SUP. Suppliers' raises no load-time warning." },
+    { "id": "UUID-004", "defect": "labsheetUuid() matches sheet names with strict equality, so a case or whitespace difference breaks the Open button." },
+    { "id": "GUARD-014", "defect": "INV_COLS.locationFallback ('Location') is read but missing from EXPECTED_COLUMNS, so its rename shows no banner." },
+    { "id": "GUARD-020", "defect": "Unit options 'ng' and 'ug' are missing from UNIT_TABLE, so those lots are typed as counts and never join the mass total." },
+    { "id": "LOGIC-009", "defect": "parseCount() uses Number(), so a comma decimal ('1,5') reads as NaN while parseUnit() accepts it." },
+    { "id": "LOGIC-015", "defect": "Same root cause as GUARD-020, asserted against the UNIT_TABLE directly." }
+  ]
+}

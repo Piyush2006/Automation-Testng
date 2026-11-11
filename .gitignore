@@ -1,0 +1,25 @@
+logs
+*.log
+npm-debug.log*
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.local
+.vite
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+# Signed-in Scispot session and captured tokens — never commit
+.auth
+test-results
+playwright-report
+# Raw recording output; the curated copies live in docs/media
+demo-output
+reports/*.json
+reports/*.csv
+reports/*.html
+reports/*.md
+reports/playwright

@@ -1,0 +1,46 @@
+{
+  "name": "sandbox-chemical-chain-of-custody",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.app.json && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.app.json",
+    "test": "vitest run",
+    "test:deps": "vitest run tests/dependency",
+    "test:gate": "vitest run --reporter=json --outputFile=reports/vitest.json ; vite-node scripts/test-gate.ts reports/vitest.json",
+    "test:report": "vitest run --reporter=json --outputFile=reports/vitest.json ; vite-node scripts/report.ts reports/vitest.json",
+    "deps:refresh": "echo 'See scripts/refresh-snapshot.md'",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "demo:guard": "bash scripts/demo-guard.sh",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report reports/playwright",
+    "demo:video": "npm run test:report ; playwright test --config demo/demo.config.ts",
+    "scispot:login": "vite-node scripts/scispot-login.ts --",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "lucide-react": "^0.462.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.16.5",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitest/ui": "^3.2.7",
+    "autoprefixer": "^10.4.21",
+    "husky": "^9.1.7",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.19",
+    "vitest": "^3.2.4"
+  }
+}

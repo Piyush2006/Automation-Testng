@@ -1,0 +1,404 @@
+{
+  "_comment": "Captured Scispot labsheet schemas. Refresh with `npm run deps:refresh` (see scripts/refresh-snapshot.md). The dependency guard compares the manifest and the app config against THIS file, so a stale snapshot means a stale guard.",
+  "capturedAt": "2026-11-11",
+  "environment": "sandbox-prod",
+  "sheets": {
+    "List of Inventory Items": [
+      {
+        "name": "ID",
+        "type": "ID_BARCODE"
+      },
+      {
+        "name": "Item Name",
+        "type": "TEXT"
+      },
+      {
+        "name": "Note",
+        "type": "TEXT"
+      }
+    ],
+    "A. Materials Manager": [
+      {
+        "name": "ID",
+        "type": "TEXT"
+      },
+      {
+        "name": "Name",
+        "type": "TEXT"
+      },
+      {
+        "name": "Parent Stock",
+        "type": "PARENT"
+      },
+      {
+        "name": "Supplier",
+        "type": "TEXT"
+      },
+      {
+        "name": "MSDS Upload",
+        "type": "ATTACHED_FILES"
+      },
+      {
+        "name": "Category",
+        "type": "LIST"
+      },
+      {
+        "name": "Lot Number",
+        "type": "TEXT"
+      },
+      {
+        "name": "Location",
+        "type": "LOCATION"
+      },
+      {
+        "name": "RSR - Drug Info",
+        "type": "TEXT"
+      },
+      {
+        "name": "RSR - Safety",
+        "type": "TEXT"
+      },
+      {
+        "name": "Expiry Date",
+        "type": "DATE"
+      },
+      {
+        "name": "Notes",
+        "type": "TEXT"
+      },
+      {
+        "name": "Threshold Quantity",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Quantity",
+        "type": "QUANTITY"
+      },
+      {
+        "name": "Quantity Consumed",
+        "type": "QUANTITY_CONSUMED"
+      },
+      {
+        "name": "Quantity Left",
+        "type": "QUANTITY_LEFT"
+      },
+      {
+        "name": "file",
+        "type": "ATTACHED_FILES"
+      },
+      {
+        "name": "Purchase Order",
+        "type": "ATTACHED_FILES"
+      },
+      {
+        "name": "Date Received",
+        "type": "DATE"
+      },
+      {
+        "name": "Asset Location",
+        "type": "TEXT"
+      },
+      {
+        "name": "Re-order?",
+        "type": "CHECKBOX"
+      },
+      {
+        "name": "Name of Experiment",
+        "type": "EXPERIMENTS"
+      },
+      {
+        "name": "Reorder Quantity",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Shipment Batch",
+        "type": "TEXT"
+      },
+      {
+        "name": "Sub contract",
+        "type": "TEXT"
+      },
+      {
+        "name": "Computed Total Quantity",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Total Quantity",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Unit Price",
+        "type": "PRICE_PER_UNIT"
+      },
+      {
+        "name": "Total Price_ Consumed Item",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Total Price _Purchased Item",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Shipping + Handling Fees",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Number of items",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Tax",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Quantity /Item",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Unit",
+        "type": "LIST"
+      },
+      {
+        "name": "Price Total Unit",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Lab Name",
+        "type": "TEXT"
+      },
+      {
+        "name": "Connection",
+        "type": "CONNECTION"
+      },
+      {
+        "name": "Created By User",
+        "type": "CREATED_BY"
+      },
+      {
+        "name": "Date Requested",
+        "type": "DATE"
+      },
+      {
+        "name": "Labspaces",
+        "type": "LABSPACES"
+      },
+      {
+        "name": "Last Modified At",
+        "type": "LAST_MODIFIED"
+      },
+      {
+        "name": "Department",
+        "type": "LIST"
+      }
+    ],
+    "SUP. Suppliers": [
+      {
+        "name": "ID",
+        "type": "ID_BARCODE"
+      },
+      {
+        "name": "Supplier Name",
+        "type": "TEXT"
+      },
+      {
+        "name": "Supplier Code",
+        "type": "TEXT"
+      },
+      {
+        "name": "Supplier Type",
+        "type": "LIST"
+      },
+      {
+        "name": "Commodity Category",
+        "type": "LIST"
+      },
+      {
+        "name": "Country",
+        "type": "TEXT"
+      },
+      {
+        "name": "Primary Contact Email",
+        "type": "TEXT"
+      },
+      {
+        "name": "Qualification Status",
+        "type": "LIST"
+      },
+      {
+        "name": "Criticality",
+        "type": "LIST"
+      },
+      {
+        "name": "Preferred Supplier",
+        "type": "LIST"
+      },
+      {
+        "name": "Single Source",
+        "type": "LIST"
+      },
+      {
+        "name": "Quality System Certified",
+        "type": "LIST"
+      },
+      {
+        "name": "ISO 9001",
+        "type": "LIST"
+      },
+      {
+        "name": "ISO 13485",
+        "type": "LIST"
+      },
+      {
+        "name": "ISO 17025",
+        "type": "LIST"
+      },
+      {
+        "name": "GMP Compliant",
+        "type": "LIST"
+      },
+      {
+        "name": "GLP Compliant",
+        "type": "LIST"
+      },
+      {
+        "name": "GDP Compliant",
+        "type": "LIST"
+      },
+      {
+        "name": "FDA Registered / Inspected",
+        "type": "LIST"
+      },
+      {
+        "name": "Quality Agreement in Place",
+        "type": "LIST"
+      },
+      {
+        "name": "Quality Agreement Date",
+        "type": "DATE"
+      },
+      {
+        "name": "Change Control Process",
+        "type": "LIST"
+      },
+      {
+        "name": "CAPA Process in Place",
+        "type": "LIST"
+      },
+      {
+        "name": "Complaint Handling Process",
+        "type": "LIST"
+      },
+      {
+        "name": "CoA Provided with Shipments",
+        "type": "LIST"
+      },
+      {
+        "name": "Lot / Batch Traceability",
+        "type": "LIST"
+      },
+      {
+        "name": "Sub-tier Supplier Control",
+        "type": "LIST"
+      },
+      {
+        "name": "Business Continuity Plan",
+        "type": "LIST"
+      },
+      {
+        "name": "Data Integrity Controls",
+        "type": "LIST"
+      },
+      {
+        "name": "Supplier Audit History",
+        "type": "LIST"
+      },
+      {
+        "name": "Last Audit Date",
+        "type": "DATE"
+      },
+      {
+        "name": "Last Audit Result",
+        "type": "LIST"
+      },
+      {
+        "name": "Questionnaire Completed",
+        "type": "LIST"
+      },
+      {
+        "name": "Assessment Score",
+        "type": "NUMBER"
+      },
+      {
+        "name": "Risk Rating",
+        "type": "LIST"
+      },
+      {
+        "name": "Assessment Outcome",
+        "type": "LIST"
+      },
+      {
+        "name": "Assessment Date",
+        "type": "DATE"
+      },
+      {
+        "name": "Next Requalification Due",
+        "type": "DATE"
+      },
+      {
+        "name": "Approved Scope",
+        "type": "TEXT"
+      },
+      {
+        "name": "Conditions / Restrictions",
+        "type": "TEXT"
+      },
+      {
+        "name": "Notes",
+        "type": "TEXT"
+      },
+      {
+        "name": "QA Assessor",
+        "type": "LIST"
+      },
+      {
+        "name": "Primary Contact Name",
+        "type": "TEXT"
+      },
+      {
+        "name": "File Upload",
+        "type": "ATTACHED_FILES"
+      }
+    ]
+  },
+  "listOptions": {
+    "A. Materials Manager": {
+      "Unit": [
+        "uL",
+        "mL",
+        "L",
+        "ng",
+        "ug",
+        "mg",
+        "gm",
+        "Each"
+      ],
+      "Category": [
+        "Biological Reagents",
+        "Kits",
+        "Chemicals",
+        "Plasticware",
+        "Glassware",
+        "Consumable",
+        "Media",
+        "Compounds",
+        "Cell Line",
+        "Raw Material",
+        "Reference Material"
+      ],
+      "Department": [
+        "Lab 1",
+        "Lab 2"
+      ]
+    }
+  }
+}

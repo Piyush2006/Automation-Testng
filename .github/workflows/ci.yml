@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  regression-gate:
+    name: Regression gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      # Fails only on a failure that is not already in tests/known-failures.json,
+      # so a new feature cannot quietly break an existing one.
+      - name: Regression gate (unit, contract, dependency guard)
+        run: npm run test:gate
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser suite
+        run: npm run test:e2e
+
+      - name: Publish QA report
+        if: always()
+        run: npm run test:report || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-report
+          path: |
+            reports/test-report.html
+            reports/test-cases.csv
+            reports/playwright
+          retention-days: 30
