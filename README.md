@@ -74,7 +74,7 @@ No test here is called `test_search_2`. Each carries an ID, what it checks, and 
 
 ## Demo
 
-A 90-second recorded walkthrough covering the product, schema-drift detection, a documented defect, and the guardrail itself:
+An 80-second recorded walkthrough covering the product, schema-drift detection, a documented defect, and the guardrail itself:
 
 **[docs/media/custody-demo.webm](docs/media/custody-demo.webm)**
 
