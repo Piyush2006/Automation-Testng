@@ -113,6 +113,39 @@ try {
     "A change that breaks nothing sails straight through. The gate blocks regressions, not progress.",
   );
 
+  // ── 7. a feature arrives with no tests at all ─────────────────────────────
+  // Nothing is broken here: the code compiles, every existing test still passes.
+  // The only thing wrong is that nobody wrote a case for it.
+  const quantityPath = join(repo, "src/lib/quantity.ts");
+  writeFileSync(
+    quantityPath,
+    readFileSync(quantityPath, "utf8") +
+      `
+/** How many days until this lot expires. Shown on the lot panel. */
+export function daysUntilExpiry(expiry: string): number | null {
+  const when = Date.parse(expiry);
+  if (Number.isNaN(when)) return null;
+  return Math.ceil((when - Date.now()) / 86_400_000);
+}
+`,
+  );
+  run(
+    "git diff --stat src/lib/quantity.ts",
+    "Now a different kind of mistake. A developer adds a genuinely new feature \u2014 and writes no test for it.",
+  );
+
+  // ── 8. the coverage guard names it ────────────────────────────────────────
+  run(
+    'git add src/lib/quantity.ts && git commit -m "feat: show days until a lot expires"',
+    "Nothing is broken, so the regression gate is happy. The coverage guard is not: it names the new function and refuses the commit.",
+  );
+
+  // ── 9. prove it again ─────────────────────────────────────────────────────
+  run(
+    "git log --oneline -1",
+    "Untested work cannot reach the repository by accident. Either write the case, or sign the gap off on purpose.",
+  );
+
   writeFileSync("demo/captured-session.json", JSON.stringify({ capturedAt: new Date().toISOString(), steps }, null, 2));
   console.log(`\nWrote demo/captured-session.json (${steps.length} steps)`);
 } finally {

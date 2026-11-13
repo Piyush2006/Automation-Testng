@@ -11,6 +11,8 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { spawn, type ChildProcess } from "node:child_process";
 import { readFileSync, mkdirSync, writeFileSync, existsSync, statSync } from "node:fs";
 import { resolve } from "node:path";
+import { surface, untested } from "../../scripts/coverage-surface";
+import { SHEETS } from "../../src/config";
 
 const PORT = Number(process.env.PORT ?? 4100);
 const ROOT = resolve(import.meta.dirname ?? ".", "../..");
@@ -40,6 +42,13 @@ export const STAGES = [
   { name: "6 · Getting connected",                detail: "4 lines — settings, session, and the retry card" },
 ];
 
+/** The labsheets this app reads, taken from the app's own config. */
+const SHEETS_USED = [
+  { name: SHEETS.items,     role: "chemical catalogue — the search box reads Item Name and Note" },
+  { name: SHEETS.inventory, role: "lots — quantities, units, lot numbers, expiry, location and supplier" },
+  { name: SHEETS.vendors,   role: "suppliers — opened from a vendor node" },
+];
+
 const APPS = [{ id: "ccoc", name: "Chemical Chain of Custody", appId: "d3340961-d93b-47b8-83ec-3c73032c01e1", suites: SUITES.map((s) => s.id) }];
 
 const STATE = "/.auth/scispot.json".slice(1);
@@ -63,6 +72,30 @@ function session() {
     };
   } catch {
     return { present: true as const, savedAt: statSync(file).mtimeMs, cookies: 0, expiresAt: null, expired: false, unreadable: true };
+  }
+}
+
+/**
+ * Anything added to src/ that no test mentions and that nobody has signed off.
+ * This is the same check COVER-001 runs; surfacing it here means you see a new
+ * untested feature as soon as you open the page, not when a commit is refused.
+ */
+function coverage() {
+  try {
+    const base = JSON.parse(readFileSync(resolve(ROOT, "tests/coverage/coverage-baseline.json"), "utf8")) as
+      { acceptedWithoutTests: string[] };
+    const accepted = new Set(base.acceptedWithoutTests);
+    const gaps = untested();
+    const fresh = gaps.filter((g) => !accepted.has(g.id));
+    return {
+      ok: true as const,
+      surface: surface().length,
+      accepted: accepted.size,
+      untested: gaps.length,
+      alerts: fresh.map((g) => ({ kind: g.kind, name: g.name, where: g.where })),
+    };
+  } catch (e) {
+    return { ok: false as const, error: String(e), alerts: [] as Array<{ kind: string; name: string; where: string }> };
   }
 }
 
@@ -238,6 +271,16 @@ function stop() {
 
 // ───────────────────────────── PDF ─────────────────────────────
 
+/** The Scispot mark, inlined so the PDF needs no network. */
+function logoDataUri(): string {
+  try {
+    const svg = readFileSync(resolve(ROOT, "tools/runner/assets/scispot-logo.svg"), "utf8");
+    return "data:image/svg+xml;base64," + Buffer.from(svg, "utf8").toString("base64");
+  } catch {
+    return "";
+  }
+}
+
 function reportHtml(run: Run) {
   const s = summarise(run);
   const esc = (x: string) => x.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!);
@@ -250,8 +293,23 @@ function reportHtml(run: Run) {
     return `<tr><td style="color:${col};font-weight:600;white-space:nowrap">${label}</td><td>${esc(c.name)}</td></tr>`;
   }).join("");
   const log = esc(run.lines.map((l) => l.text).join("\n")).slice(0, 60000);
+  const app = APPS[0]!;
+  const logo = logoDataUri();
   return `<!doctype html><html><head><meta charset="utf-8"><style>
     @page { margin: 16mm 14mm; }
+    .brand{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:16px;border-bottom:2px solid #0b7466}
+    .brand img{width:34px;height:34px;flex:none}
+    .brand .who{font-size:11px;color:#5a6b67;line-height:1.45}
+    .brand .who b{display:block;font-size:14.5px;color:#0f1a18}
+    .brand .right{margin-left:auto;text-align:right;font-size:10px;color:#8a9b97;font-family:ui-monospace,monospace}
+    .aut{border:1px solid #dde5e3;border-radius:7px;margin-bottom:18px;overflow:hidden;font-size:11.5px}
+    .aut .r{display:flex;align-items:flex-start;border-bottom:1px solid #eef2f1}
+    .aut .r:last-child{border-bottom:0}
+    .aut .k{width:148px;flex:none;padding:9px 13px;color:#5a6b67;background:#f4f7f6;font-weight:500;align-self:stretch}
+    .aut .v{padding:9px 13px;color:#0f1a18;font-weight:600}
+    .aut .v em{display:block;font-weight:400;font-style:normal;color:#5a6b67;font-size:10.5px;margin:1px 0 6px}
+    .aut .v em:last-child{margin-bottom:0}
+    .aut .mono{font-family:ui-monospace,monospace;font-size:10.5px;font-weight:400;color:#5a6b67}
     body{font:12px/1.6 -apple-system,"Segoe UI",sans-serif;color:#101619;margin:0}
     h1{font-size:23px;margin:0 0 4px} h2{font-size:15px;margin:22px 0 8px;border-bottom:1px solid #dce3e3;padding-bottom:5px}
     .meta{color:#596a70;font-size:11px;margin-bottom:14px}
@@ -260,9 +318,22 @@ function reportHtml(run: Run) {
     .k{display:flex;gap:22px;margin:10px 0;font-size:12px} .k b{font-size:19px;display:block;font-family:ui-monospace,monospace}
     pre{background:#f6f8f8;border:1px solid #dce3e3;border-radius:5px;padding:9px;font-size:9px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
   </style></head><body>
-    <h1>Chemical Chain of Custody — Test Result</h1>
+    <div class="brand">
+      ${logo ? `<img src="${logo}" alt="Scispot">` : ""}
+      <div class="who"><b>Scispot</b>Labsheets &middot; Jazz smart app</div>
+      <div class="right">sandbox-prod<br>${esc(app.appId)}</div>
+    </div>
+    <h1>${esc(app.name)} — Test Result</h1>
     <div class="meta">${esc(run.suiteName)}${run.headed ? " (visible browser)" : ""} &middot; ${when} &middot; ${secs}s &middot; exit ${run.exitCode ?? "—"}${run.stopped ? " &middot; stopped by operator" : ""}</div>
     <div class="v">${s.verdict}</div>
+    <div class="aut">
+      <div class="r"><div class="k">Entity</div><div class="v">Jazz App</div></div>
+      <div class="r"><div class="k">Custom Application</div><div class="v">${esc(app.name)}
+        <em class="mono">${esc(app.appId)}</em></div></div>
+      <div class="r"><div class="k">Labsheets used</div><div class="v">${SHEETS_USED.map((x) =>
+        `${esc(x.name)}<em>${esc(x.role)}</em>`).join("")}</div></div>
+      <div class="r"><div class="k">Environment</div><div class="v">sandbox-prod<em>labsheets.scispot.io</em></div></div>
+    </div>
     <div class="k">
       <span><b>${s.total}</b>checks</span>
       <span><b style="color:#157347">${s.passed}</b>passed</span>
@@ -318,6 +389,7 @@ createServer(async (req, res) => {
     return json(res, r.ok ? 200 : 409, r);
   }
   if (url.pathname === "/api/session") return json(res, 200, session());
+  if (url.pathname === "/api/coverage") return json(res, 200, coverage());
   if (url.pathname === "/api/login" && req.method === "POST") {
     const { email } = JSON.parse((await body(req)) || "{}");
     const r = login(String(email ?? "").trim());

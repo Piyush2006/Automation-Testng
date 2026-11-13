@@ -42,6 +42,24 @@ header p{margin:3px 0 0;color:var(--dim);font-size:14.5px;flex-basis:100%}
 .pill.good{background:var(--green-bg);color:var(--green)}
 .pill.bad{background:var(--amber-bg);color:var(--amber)}
 
+/* coverage alert */
+.card.alert{border-color:#e8c48a;background:#fffaf1}
+.card.alert.clear{border-color:#bfe0cd;background:#f3faf5}
+.alert-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.alert-h b{font-size:16.5px}
+.alert-badge{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  background:var(--amber-bg);color:var(--amber);padding:5px 11px;border-radius:20px;white-space:nowrap}
+.card.alert.clear .alert-badge{background:var(--green-bg);color:var(--green)}
+.alert-h button{margin-left:auto}
+.alert-sub{margin:9px 0 0;font-size:14px;color:var(--dim);max-width:66ch}
+#covList{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+#covList li{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;background:#fff;
+  border:1px solid #ecd9b4;border-radius:9px;padding:11px 14px}
+#covList .k{font:600 10px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--amber);
+  background:var(--amber-bg);padding:3px 8px;border-radius:4px;white-space:nowrap}
+#covList .nm{font:14.5px var(--mono);font-weight:500;word-break:break-word}
+#covList .wh{font-size:12.5px;color:var(--faint);margin-left:auto}
+
 /* buttons */
 button{font-family:var(--sans);border-radius:9px;cursor:pointer;border:1px solid transparent;font-weight:600}
 button:disabled{opacity:.38;cursor:not-allowed}
@@ -119,6 +137,19 @@ input[type=email]{flex:1 1 240px;min-width:0;font:15px var(--sans);padding:11px 
   <span class="tag">Chemical Chain of Custody</span>
   <p>Run the suite against your real Scispot tenant, watch it happen, take the result away as a PDF.</p>
 </header>
+
+<div class="card alert" id="cov" hidden>
+  <div class="pad">
+    <div class="alert-h">
+      <span class="alert-badge" id="covCount"></span>
+      <b id="covTitle"></b>
+      <button id="covRescan" class="ghost">Re-scan</button>
+    </div>
+    <p class="alert-sub" id="covSub"></p>
+    <ul id="covList"></ul>
+    <p class="hint" id="covFoot"></p>
+  </div>
+</div>
 
 <div class="card">
   <div class="sess">
@@ -252,10 +283,49 @@ $("login").onclick = async () => {
   setRunning(true);
 };
 
+async function coverage() {
+  var d = await fetch("/api/coverage").then(function (r) { return r.json(); }).catch(function () { return null; });
+  if (!d) return;
+  var card = $("cov"), n = (d.alerts || []).length;
+  card.hidden = false;
+
+  if (!d.ok) {
+    card.className = "card alert";
+    $("covCount").textContent = "scan failed";
+    $("covTitle").textContent = "Could not check coverage";
+    $("covSub").textContent = d.error || "";
+    $("covList").innerHTML = ""; $("covFoot").textContent = "";
+    return;
+  }
+  if (n === 0) {
+    card.className = "card alert clear";
+    $("covCount").textContent = "no alerts";
+    $("covTitle").textContent = "Every part of the app is accounted for";
+    $("covSub").textContent = "Nothing new has been added without a test case.";
+    $("covList").innerHTML = "";
+    $("covFoot").textContent = d.surface + " parts scanned · " + d.accepted + " known gaps signed off";
+    return;
+  }
+  card.className = "card alert";
+  $("covCount").textContent = n + " untested";
+  $("covTitle").textContent = n === 1 ? "A new part of the app has no test case"
+                                      : n + " new parts of the app have no test cases";
+  $("covSub").textContent = "These were added to the app and no test mentions them. They are not covered by the 42, and a commit touching them is refused.";
+  $("covList").innerHTML = d.alerts.map(function (a) {
+    return '<li><span class="k">' + a.kind + '</span><span class="nm">' + a.name
+         + '</span><span class="wh">' + a.where + "</span></li>";
+  }).join("");
+  $("covFoot").textContent = d.surface + " parts scanned · " + d.accepted
+    + " known gaps signed off · write a case, or add it to tests/coverage/coverage-baseline.json on purpose";
+}
+coverage();
+$("covRescan").onclick = coverage;
+
 const es = new EventSource("/api/stream");
 es.addEventListener("started", () => setRunning(true));
 es.addEventListener("line", (e) => line(JSON.parse(e.data).text));
 es.addEventListener("done", (e) => {
+  coverage();
   const s = JSON.parse(e.data);
   finished = true; setRunning(false); $("pdf").disabled = false;
   if (s.login) {
