@@ -1,0 +1,47 @@
+{
+  "capturedAt": "2026-11-12",
+  "environment": "sandbox-prod",
+  "capturedVia": "Scispot MCP get_labsheet_schema",
+  "sheets": {
+    "List of Inventory Items": {
+      "columns": [
+        { "name": "ID", "type": "ID_BARCODE" },
+        { "name": "Item Name", "type": "TEXT" },
+        { "name": "Note", "type": "TEXT" }
+      ]
+    },
+    "A. Materials Manager": {
+      "columns": [
+        { "name": "ID", "type": "TEXT" }, { "name": "Name", "type": "TEXT" },
+        { "name": "Parent Stock", "type": "PARENT" }, { "name": "Supplier", "type": "TEXT" },
+        { "name": "MSDS Upload", "type": "ATTACHED_FILES" }, { "name": "Category", "type": "LIST" },
+        { "name": "Lot Number", "type": "TEXT" }, { "name": "Location", "type": "LOCATION" },
+        { "name": "RSR - Drug Info", "type": "TEXT" }, { "name": "RSR - Safety", "type": "TEXT" },
+        { "name": "Expiry Date", "type": "DATE" }, { "name": "Notes", "type": "TEXT" },
+        { "name": "Threshold Quantity", "type": "NUMBER" }, { "name": "Quantity", "type": "QUANTITY" },
+        { "name": "Quantity Consumed", "type": "QUANTITY_CONSUMED" }, { "name": "Quantity Left", "type": "QUANTITY_LEFT" },
+        { "name": "file", "type": "ATTACHED_FILES" }, { "name": "Purchase Order", "type": "ATTACHED_FILES" },
+        { "name": "Date Received", "type": "DATE" }, { "name": "Asset Location", "type": "TEXT" },
+        { "name": "Re-order?", "type": "CHECKBOX" }, { "name": "Name of Experiment", "type": "EXPERIMENTS" },
+        { "name": "Reorder Quantity", "type": "NUMBER" }, { "name": "Shipment Batch", "type": "TEXT" },
+        { "name": "Sub contract", "type": "TEXT" }, { "name": "Computed Total Quantity", "type": "NUMBER" },
+        { "name": "Total Quantity", "type": "NUMBER" }, { "name": "Unit Price", "type": "PRICE_PER_UNIT" },
+        { "name": "Total Price_ Consumed Item", "type": "NUMBER" }, { "name": "Total Price _Purchased Item", "type": "NUMBER" },
+        { "name": "Shipping + Handling Fees", "type": "NUMBER" }, { "name": "Number of items", "type": "NUMBER" },
+        { "name": "Tax", "type": "NUMBER" }, { "name": "Quantity /Item", "type": "NUMBER" },
+        { "name": "Unit", "type": "LIST", "references": ["uL", "mL", "L", "ng", "ug", "mg", "gm", "Each"] },
+        { "name": "Price Total Unit", "type": "NUMBER" }, { "name": "Lab Name", "type": "TEXT" },
+        { "name": "Connection", "type": "CONNECTION" }, { "name": "Created By User", "type": "CREATED_BY" },
+        { "name": "Date Requested", "type": "DATE" }, { "name": "Labspaces", "type": "LABSPACES" },
+        { "name": "Last Modified At", "type": "LAST_MODIFIED" }, { "name": "Department", "type": "LIST" }
+      ]
+    },
+    "SUP. Suppliers": {
+      "columns": [
+        { "name": "ID", "type": "ID_BARCODE" }, { "name": "Supplier Name", "type": "TEXT" },
+        { "name": "Supplier Code", "type": "TEXT" }, { "name": "Supplier Type", "type": "LIST" },
+        { "name": "Country", "type": "TEXT" }, { "name": "Notes", "type": "TEXT" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-11-12T08:24:29.908Z",
+  "workspace": "Sandbox Customer",
+  "findings": [
+    {
+      "chemical": "Reagent A",
+      "foundInCatalogue": true,
+      "selected": true,
+      "resultText": "Chemical Chain of Custody INVENTORY Find a chemical Search by name or note to see every lot, its supplier, and the total quantity left. Reagent A INVENTORY ITEM Reagent A Total quantity left: 1.1 mL LOT NO. LOT-451 Quantity left: 0.1 mL VENDOR Inorganic Ventures LOT NO. LOT-882 Quantity left: 1 mL VENDOR Fisher Chemical Lot quantities reconcile to inventory total 0.1 mL + 1 mL = 1.1 mL",
+      "lots": [
+        "LOT NO. LOT-451 Quantity left: 0.1 mL",
+        "LOT NO. LOT-882 Quantity left: 1 mL"
+      ]
+    },
+    {
+      "chemical": "Reagent B",
+      "foundInCatalogue": true,
+      "selected": true,
+      "resultText": "Chemical Chain of Custody INVENTORY Find a chemical Search by name or note to see every lot, its supplier, and the total quantity left. Reagent B INVENTORY ITEM Reagent B Total quantity left: not recorded No Materials Manager rows match this item name yet to add lots here.",
+      "lots": []
+    },
+    {
+      "chemical": "Trypsin-EDTA. 0.25%.",
+      "foundInCatalogue": true,
+      "selected": true,
+      "resultText": "Chemical Chain of Custody INVENTORY Find a chemical Search by name or note to see every lot, its supplier, and the total quantity left. Trypsin-EDTA. 0.25%. INVENTORY ITEM Trypsin-EDTA. 0.25%. Total quantity left: 2 mL LOT NO. APAP-24-0307-02 Quantity left: 1 mL VENDOR Fisher Chemical LOT NO. NA-25-0930-01 Quantity left: 1 mL VENDOR EDQM Lot quantities reconcile to inventory total 1 mL + 1 mL = 2 mL",
+      "lots": [
+        "LOT NO. APAP-24-0307-02 Quantity left: 1 mL",
+        "LOT NO. NA-25-0930-01 Quantity left: 1 mL"
+      ]
+    },
+    {
+      "chemical": "Na₂CO₃",
+      "foundInCatalogue": true,
+      "selected": true,
+      "resultText": "Chemical Chain of Custody INVENTORY Find a chemical Search by name or note to see every lot, its supplier, and the total quantity left. Na₂CO₃ INVENTORY ITEM Na₂CO₃ Total quantity left: 1 mL LOT NO. LOT-992 Quantity left: 1 mL VENDOR EDQM Lot quantity is the inventory total 1 mL = 1 mL",
+      "lots": [
+        "LOT NO. LOT-992 Quantity left: 1 mL"
+      ]
+    }
+  ]
+}

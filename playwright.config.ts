@@ -7,6 +7,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
+  // Honour the worker count the runner UI passes; Playwright would otherwise
+  // pick its own default (half the CPU cores).
+  workers: Number(process.env.WORKERS) || undefined,
   testDir: "./e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

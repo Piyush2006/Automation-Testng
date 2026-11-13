@@ -19,7 +19,11 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report reports/playwright",
+    "test:live": "playwright test --config playwright.live.config.ts",
+    "test:live:watch": "HEADED=1 playwright test --config playwright.live.config.ts --headed",
+    "runner": "vite-node tools/runner/server.ts",
     "demo:video": "npm run test:report ; playwright test --config demo/demo.config.ts",
+    "demo:live": "vite-node demo/live-demo.ts --",
     "scispot:login": "vite-node scripts/scispot-login.ts --",
     "prepare": "husky"
   },
