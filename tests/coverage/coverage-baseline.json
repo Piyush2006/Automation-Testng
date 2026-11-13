@@ -1,0 +1,30 @@
+{
+  "note": "Parts of the app that no test mentions, accepted on purpose. Adding a line waves a gap through; deleting one means a test now covers it. COVER-001 fails for anything new that is not listed here.",
+  "capturedAt": "2026-11-13",
+  "acceptedWithoutTests": [
+    "component:ChemicalSearch",
+    "component:CustodyGraphSkeleton",
+    "control:Loading chain of custody",
+    "control:Type a name, note, or item ID…",
+    "function:ChemicalSearch",
+    "function:CustodyGraphSkeleton",
+    "function:errorMessage",
+    "function:lotTitle",
+    "message:Scispot Jazz SDK did not load. Open this app from Jazz in Scispot.",
+    "message:Search by name, note, or item ID.",
+    "sdk:labsheets.find"
+  ],
+  "why": {
+    "message:Search by name, note, or item ID.": "message in src/App.tsx",
+    "function:ChemicalSearch": "function in src/components/ChemicalSearch.tsx",
+    "component:ChemicalSearch": "component in src/components/ChemicalSearch.tsx",
+    "control:Type a name, note, or item ID…": "control in src/components/ChemicalSearch.tsx",
+    "function:lotTitle": "function in src/components/CustodyGraph.tsx",
+    "function:CustodyGraphSkeleton": "function in src/components/CustodyGraph.tsx",
+    "component:CustodyGraphSkeleton": "component in src/components/CustodyGraph.tsx",
+    "control:Loading chain of custody": "control in src/components/CustodyGraph.tsx",
+    "function:errorMessage": "function in src/lib/sdk.ts",
+    "message:Scispot Jazz SDK did not load. Open this app from Jazz in Scispot.": "message in src/lib/sdk.ts",
+    "sdk:labsheets.find": "sdk in src/lib/sdk.ts"
+  }
+}
